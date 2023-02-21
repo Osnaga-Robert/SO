@@ -1,0 +1,15 @@
+Pentru inceput in metoda main vom face un loop prin care avem conexiune permanenta la server
+Dupa care avem 3 cazuri: cazul in care cream o noua conexiune, in cazul in care avem un eveniment EPOLLIN
+si in cazul in care avem un eveniment EPOLLOUT
+La inceput se va creea o noua conexiune prin care vom aloca dinamic anumite structuri, vom seta socket-ul ca fiind non-blocant,
+dupa care vom adauga socket-ul in epoll, producandu-se un eveniment de tip EPOLLIN.
+In cazul evenimentelor EPOLLIN vom apela recv conform site-ului https://paisleybuddy.com/blog/nonblocking-http-server-in-c/
+prin care vom citi din socket pana la sfarsit (sfarsitul fiind de tipul "\r\n\r\n")
+si vom genera evenimente de tipul EPOLLIN pana la sfarsit. La sfarsit vom genera un eveniment de tipul EPOLLOUT.
+La evenimentele de tipul EPOLLIN, avem trei tipuri de fisiere: cele de tip static, cele de tip dinamic si
+cele care nu se incadreaza in cele doua.
+In cazul fisiereleor statice vom proceda in cazul send-ului ca la recv, dar de data asta scrie pe parti in buffer-ul nostru pe care mai departe il vom scrie intr-un fisier folosind sendfile. Pentru a putea repeta acest procedeu, vom genera 
+evenimente de tipul EPOLLIN pana cand vor intalni anumite restrictii
+In cazul fisierelor dimanice ne vom folosi de exemplele date de laborator pentru a transmite datele folosind operatii asincrone
+In cazul al treilea  vom transmite normal fisierele
+La sfarsit vom inchide socket-ul si conexiunea cu server-ul

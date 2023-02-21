@@ -1,0 +1,11 @@
+Am implementat page fault handler-ul prin intermediul tratarii semnalului SIGSEGV.
+Conform documentatiei, daca exista o adresa nemapata, atunci in si_code va exista semnalul SEGV_MAPERR,
+iar in si_addr v-a fi adresa unde se produce page fault-ul.
+Vom verifica pentru fiecare segment daca aceasta adresa se afla in segmentele noastre, in caz contrar vom rula handler-ul default
+Daca gasim adresa, atunci vom mapa intreaga pagina(mai intai vom alinia memoria).
+Vom citi cu ajutorul file descriptor-ului informatiile din fisier, dupa care vom trata
+pagina in functie de pozitia la care se afla in segment
+Daca este chiar ultima pagina atunci aceea pagina contine atat elemente din file_size
+cat si elemente din mem_size. Drept urmare trebuie  diferența între spațiul din memorie și spațiul din fișier, trebuie zeroizată(conform cerintei)
+Daca pagina se afla in spatiul lui mem-size, atunci vom pune zero pe intreaga pagina
+Consideram ca am terminat atunci cand gasim un segment potrivit sau atunci cand rulam handler-ul default

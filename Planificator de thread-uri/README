@@ -1,0 +1,14 @@
+In prima faza am contruit structurile pentru planificator si pentru thread-urile care urmeaza sa fie intr-o coada si cele care urmeaza sa fie create.
+Pentru thread-uri am retinut id-ul, cuanta de timp pe care o mai au, prioritatea in sistem , handler-ul(in special pentru functia din pthread_create),
+si un id specific pentru fiecare thread
+Pentru planificator, avem nevoie de un init care reprezinta o verificare pentru a verifica daca planificatorul este activ sau nu, numaru de evenimente, 
+cuanta pe care o are fiecare thread, dupa care vrem sa retinem dimensiunea thread-urile si a cozii, respectiv coada si threadurile.
+In functia init doar am initializat planificatorul dupa ce am verificat parametrii pe care ii primimi la intrare
+In so_end am verificat daca functia end este apelata inaintea functiei start, dupa care am eliberat thread-urile si am eliberat memoria
+In so_fork am verificat parametrii de intrare dupa care am creat un thread nou pe care il adaugam in coada. Verificam daca cuanta thread-ului curent a expirat
+sau daca prioritatea acestura este mai mica decat prioritatea noului thread, caz in care il vom schimba
+In functia thread_start, am facut exact ce se cere in cerinta, am pus thread-ul pe asteptare si am dat call la handler, alaturi de prioritatea sa.
+In functia change_thread am luat thread-ul prioritar din coada si thread-ul curent, dupa care am adaugat in coada thread-ul curent iar
+thread-ul prioritar l-am deblocat pentru a ne putea folosi de el
+Functia so_exec doar foloseste timp pe procesor, deci doar ii scadem timpul disponibil si dupa verificam daca mai are timp sau nu
+
